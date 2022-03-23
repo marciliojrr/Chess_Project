@@ -16,5 +16,11 @@
             this.color = color;
             this.numMovements = 0;
         }
+
+        // Methods
+        public void incrementMovementQuantity()
+        {
+            this.numMovements++;
+        }
     }
 }

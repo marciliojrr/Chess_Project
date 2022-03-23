@@ -8,24 +8,33 @@ namespace Xadrez_Console
     {
         static void Main(string[] args)
         {
-            
+
             try
             {
-                Board board = new Board(8, 8); // Cria um tabuleiro de 8x8 com todos os elementos nulos.
+                ChessGame game = new ChessGame();
 
-                board.putPiece(new Rook(board, Color.Black), new Position(0, 0));
-                board.putPiece(new Rook(board, Color.Black), new Position(1, 7));
-                board.putPiece(new King(board, Color.Black), new Position(0, 2));
-                board.putPiece(new Rook(board, Color.White), new Position(3, 4));
-                board.putPiece(new King(board, Color.Black), new Position(2, 5));
+                while (!game.finished)
+                {
+                    Console.Clear();
+                    Screen.PrintBoard(game.board);
 
-                Screen.PrintBoard(board);
+                    Console.Write("\nFrom: ");
+                    Position from = Screen.readPosition().toPosition();
+                    Console.Write("To: ");
+                    Position to = Screen.readPosition().toPosition();
+
+                    game.performMovement(from, to);
+                }
+
+                Screen.PrintBoard(game.board);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-            
+            Console.WriteLine();
+            Console.ReadLine();
+
             /*
             ChessPosition pos = new ChessPosition('a', 1);
             ChessPosition pos1 = new ChessPosition('c', 7);

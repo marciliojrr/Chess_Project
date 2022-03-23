@@ -18,7 +18,7 @@ namespace Chess
         // Methods
         public Position toPosition() // Metodo para converter as posicoes do tabuleiro para posições válidas na matriz
         {
-            return new Position(8 - Row, Column - 'a');   
+            return new Position(8 - Row, Column - 'a');
         }
 
         public override string ToString()
