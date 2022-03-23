@@ -1,4 +1,6 @@
-﻿namespace Chessboard
+﻿using Chessboard.Exceptions;
+
+namespace Chessboard
 {
     internal class Board
     {
@@ -27,10 +29,42 @@
             return pieces[row, column];
         }
 
+        public Piece piece(Position pos)
+        {
+            return pieces[pos.Row, pos.Column];
+        }
+
+        public bool occupiedPosition(Position pos)
+        {
+            validatePosition(pos);
+            return piece(pos) != null;
+        }
+
         public void putPiece(Piece p, Position pos)
         {
+            if (occupiedPosition(pos))
+            {
+                throw new BoardException("There is already a piece in that position.");
+            }
             pieces[pos.Row, pos.Column] = p;
             p.position = pos;
+        }
+
+        public bool validPosition(Position pos)
+        {
+            if (pos.Row < 0 || pos.Row >= Rows || pos.Column < 0 || pos.Column >= Columns)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void validatePosition(Position pos)
+        {
+            if (!validPosition(pos))
+            {
+                throw new BoardException("Invalid position!");
+            }
         }
     }
 }

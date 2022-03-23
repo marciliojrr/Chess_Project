@@ -8,13 +8,20 @@ namespace Xadrez_Console
     {
         static void Main(string[] args)
         {
-            Board board = new Board(8, 8); // Cria um tabuleiro de 8x8 com todos os elementos nulos.
+            try
+            {
+                Board board = new Board(8, 8); // Cria um tabuleiro de 8x8 com todos os elementos nulos.
 
-            board.putPiece(new Rook(board, Color.Black), new Position(0, 0));
-            board.putPiece(new Rook(board, Color.Black), new Position(1, 3));
-            board.putPiece(new King(board, Color.Black), new Position(2, 4));
+                board.putPiece(new Rook(board, Color.Black), new Position(0, 0));
+                board.putPiece(new Rook(board, Color.Black), new Position(1, 9));
+                board.putPiece(new King(board, Color.Black), new Position(0, 2));
 
-            Screen.PrintBoard(board);
+                Screen.PrintBoard(board);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }
