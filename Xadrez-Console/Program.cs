@@ -8,6 +8,7 @@ namespace Xadrez_Console
     {
         static void Main(string[] args)
         {
+            /*
             try
             {
                 Board board = new Board(8, 8); // Cria um tabuleiro de 8x8 com todos os elementos nulos.
@@ -22,6 +23,15 @@ namespace Xadrez_Console
             {
                 Console.WriteLine(e.Message);
             }
+            */
+            ChessPosition pos = new ChessPosition('a', 1);
+            ChessPosition pos1 = new ChessPosition('c', 7);
+            Console.WriteLine(pos);
+            Console.WriteLine(pos.toPosition());
+            
+            Console.WriteLine(pos1);
+            Console.WriteLine(pos1.toPosition());
+
         }
     }
 }
