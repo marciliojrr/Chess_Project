@@ -18,15 +18,23 @@ namespace Xadrez_Console
                     Console.Clear();
                     Screen.PrintBoard(game.board);
 
+                    Console.WriteLine();
                     Console.Write("\nFrom: ");
                     Position from = Screen.readPosition().toPosition();
+
+                    bool[,] possiblePosition = game.board.piece(from).possibleMoves();
+
+
+                    Console.Clear();
+                    Screen.PrintBoard(game.board, possiblePosition);
+                    Console.WriteLine();
+
+                    Console.WriteLine();
                     Console.Write("To: ");
                     Position to = Screen.readPosition().toPosition();
 
                     game.performMovement(from, to);
                 }
-
-                Screen.PrintBoard(game.board);
             }
             catch (Exception e)
             {

@@ -1,6 +1,6 @@
 ﻿namespace Chessboard
 {
-    internal class Piece
+    internal abstract class Piece
     {
         // Props
         public Position position { get; set; }
@@ -22,5 +22,7 @@
         {
             this.numMovements++;
         }
+
+        public abstract bool[,] possibleMoves();
     }
 }
