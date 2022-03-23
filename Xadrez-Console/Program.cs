@@ -7,11 +7,8 @@ namespace Xadrez_Console
     {
         static void Main(string[] args)
         {
-            Position P = new Position(3, 4);
-            Console.WriteLine($"Position: {P}");
-
-            Board board = new Board(8, 8);
-            Console.WriteLine();
+            Board board = new Board(8, 8); // Cria um tabuleiro de 8x8 com todos os elementos nulos.
+            Screen.PrintBoard(board);
         }
     }
 }
