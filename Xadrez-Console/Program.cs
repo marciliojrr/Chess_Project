@@ -18,11 +18,7 @@ namespace Xadrez_Console
                     try
                     {
                         Console.Clear();
-                        Screen.PrintBoard(game.board);
-
-                        Console.WriteLine("\n");
-                        Console.WriteLine($"Turn: {game.turn}");
-                        Console.WriteLine($"Waiting for player move: {game.currentPlayer}");
+                        Screen.printGame(game);
 
                         Console.WriteLine();
                         Console.Write("\nFrom: ");
