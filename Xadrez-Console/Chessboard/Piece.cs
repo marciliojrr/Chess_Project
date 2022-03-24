@@ -23,6 +23,11 @@
             this.numMovements++;
         }
 
+        public void decreaseMovementQuantity()
+        {
+            this.numMovements--;
+        }
+
         public bool thereArePossibleMoves()
         {
             bool[,] mat = possibleMoves();

@@ -16,6 +16,14 @@ namespace Xadrez_Console
             Console.WriteLine("\n");
             Console.WriteLine($"Turn: {game.turn}");
             Console.WriteLine($"Waiting for player move: {game.currentPlayer}");
+
+            Console.WriteLine();
+
+            if (game.checkmate)
+            {
+                Console.WriteLine($" --------   ATTENTION {game.currentPlayer} --------");
+                Console.WriteLine("((( YOU ARE IN CHECKMATE POSITION! )))");
+            }
         }
 
         public static void printCapturedPieces(ChessGame game)
