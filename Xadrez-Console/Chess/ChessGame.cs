@@ -36,18 +36,11 @@ namespace Chess
         private void putPieces()
         {
             putNewPiece('c', 1, new Rook(board, Color.White));
-            putNewPiece('c', 2, new Rook(board, Color.White));
-            putNewPiece('d', 2, new Rook(board, Color.White));
-            putNewPiece('e', 2, new Rook(board, Color.White));
-            putNewPiece('e', 1, new Rook(board, Color.White));
             putNewPiece('d', 1, new King(board, Color.White));
+            putNewPiece('h', 7, new Rook(board, Color.White));
 
-            putNewPiece('c', 7, new Rook(board, Color.Black));
-            putNewPiece('c', 8, new Rook(board, Color.Black));
-            putNewPiece('d', 7, new Rook(board, Color.Black));
-            putNewPiece('e', 7, new Rook(board, Color.Black));
-            putNewPiece('e', 8, new Rook(board, Color.Black));
-            putNewPiece('d', 8, new King(board, Color.Black));
+            putNewPiece('a', 8, new King(board, Color.Black));
+            putNewPiece('b', 8, new Rook(board, Color.Black));
 
         }
         public Piece performMovement(Position from, Position to)
@@ -97,8 +90,15 @@ namespace Chess
                 checkmate = false;
             }
 
-            turn++;
-            changePlayer();
+            if (checkMateTest(adversary(currentPlayer)))
+            {
+                finished = true;
+            }
+            else
+            {
+                turn++;
+                changePlayer();
+            }
         }
 
 
@@ -172,6 +172,41 @@ namespace Chess
                 }
             }
             return false;
+        }
+
+        public bool checkMateTest(Color color)
+        {
+            if (!isInCheck(color))
+            {
+                return false;
+            }
+            
+            foreach(Piece x in piecesInGame(color))
+            {
+                bool[,] mat = x.possibleMoves();
+
+                for (int i = 0; i < board.Rows; i++)
+                {
+                    for (int j = 0; j < board.Columns; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position from = x.position;
+                            Position to = new Position(i, j);
+                            Piece capturedPiece = performMovement(from, to);
+                            bool checkTest = isInCheck(color);
+                            undoMove(from, to, capturedPiece);
+
+                            if (!checkTest)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
 
         public void validateOriginPosition(Position pos)
