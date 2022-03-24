@@ -1,20 +1,21 @@
 ﻿using System;
 using Chessboard;
+using Chessboard.Exceptions;
 
 namespace Chess
 {
     internal class ChessGame
     {
         public Board board { get; private set; }
-        private int turno;
-        private Color jogadorAtual;
+        public int turn { get; private set; }
+        public Color currentPlayer { get; private set; }
         public bool finished { get; private set; }
 
         public ChessGame()
         {
             board = new Board(8, 8);
-            turno = 1;
-            jogadorAtual = Color.White;
+            turn = 1;
+            currentPlayer = Color.White;
             finished = false;
             putPieces();
         }
@@ -43,6 +44,51 @@ namespace Chess
             p.incrementMovementQuantity();
             Piece capturedPiece = board.removePiece(to);
             board.putPiece(p, to);
+        }
+
+        public void makeMove(Position from, Position to)
+        {
+            performMovement(from, to);
+            turn++;
+            changePlayer();
+        }
+
+        public void validateOriginPosition(Position pos)
+        {
+            if (board.piece(pos) == null)
+            {
+                throw new BoardException("There is no part in the chosen origin position.");
+            }
+
+            if (currentPlayer != board.piece(pos).color)
+            {
+                throw new BoardException("The original part chosen is not yours.");
+            }
+
+            if (!board.piece(pos).thereArePossibleMoves())
+            {
+                throw new BoardException("There are no possible moves for the chosen piece.");
+            }
+        }
+
+        public void validateDestinyPosition(Position from, Position to)
+        {
+            if (!board.piece(from).canMoveToDestination(to))
+            {
+                throw new BoardException("Invalid target position.");
+            }
+        }
+
+        private void changePlayer()
+        {
+            if (currentPlayer == Color.White)
+            {
+                currentPlayer = Color.Black;
+            }
+            else
+            {
+                currentPlayer = Color.White;
+            }
         }
     }
 }

@@ -23,6 +23,28 @@
             this.numMovements++;
         }
 
+        public bool thereArePossibleMoves()
+        {
+            bool[,] mat = possibleMoves();
+
+            for (int i = 0; i < board.Rows; i++)
+            {
+                for (int j = 0; j < board.Columns; j++)
+                {
+                    if (mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool canMoveToDestination(Position pos)
+        {
+            return possibleMoves()[pos.Row, pos.Column];
+        }
+
         public abstract bool[,] possibleMoves();
     }
 }
