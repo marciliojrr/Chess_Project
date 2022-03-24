@@ -2,22 +2,21 @@
 
 namespace Chess
 {
-    internal class King : Piece
-    {
-        // AutoProps
-        // Constructor
-        public King(Board board, Color color) : base(board, color) { }
 
-        // Methods
+    internal class Horse : Piece
+    {
+
+        public Horse(Board board, Color color) : base(board, color) { }
+
         public override string ToString()
         {
-            return "K";
+            return "H";
         }
 
         private bool canMove(Position pos)
         {
             Piece p = board.piece(pos);
-            return p == null || p.color != this.color; 
+            return p == null || p.color != color;
         }
 
         public override bool[,] possibleMoves()
@@ -26,62 +25,47 @@ namespace Chess
 
             Position pos = new Position(0, 0);
 
-            // North
-            pos.defValues(position.Row - 1, position.Column);
+            pos.defValues(position.Row - 1, position.Column - 2);
+            if (board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Row, pos.Column] = true;
+            }
+            pos.defValues(position.Row - 2, position.Column - 1);
+            if (board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Row, pos.Column] = true;
+            }
+            pos.defValues(position.Row - 2, position.Column + 1);
+            if (board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Row, pos.Column] = true;
+            }
+            pos.defValues(position.Row - 1, position.Column + 2);
+            if (board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Row, pos.Column] = true;
+            }
+            pos.defValues(position.Row + 1, position.Column + 2);
+            if (board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Row, pos.Column] = true;
+            }
+            pos.defValues(position.Row + 2, position.Column + 1);
+            if (board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Row, pos.Column] = true;
+            }
+            pos.defValues(position.Row + 2, position.Column - 1);
+            if (board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Row, pos.Column] = true;
+            }
+            pos.defValues(position.Row + 1, position.Column - 2);
             if (board.validPosition(pos) && canMove(pos))
             {
                 mat[pos.Row, pos.Column] = true;
             }
 
-            // Northeast
-            pos.defValues(position.Row - 1, position.Column + 1);
-            if (board.validPosition(pos) && canMove(pos))
-            {
-                mat[pos.Row, pos.Column] = true;
-            }
-
-            // East
-            pos.defValues(position.Row, position.Column + 1);
-            if (board.validPosition(pos) && canMove(pos))
-            {
-                mat[pos.Row, pos.Column] = true;
-            }
-
-            // Southeast
-            pos.defValues(position.Row + 1, position.Column + 1);
-            if (board.validPosition(pos) && canMove(pos))
-            {
-                mat[pos.Row, pos.Column] = true;
-            }
-
-            // South
-            pos.defValues(position.Row + 1, position.Column);
-            if (board.validPosition(pos) && canMove(pos))
-            {
-                mat[pos.Row, pos.Column] = true;
-            }
-
-            // South-west
-            pos.defValues(position.Row + 1, position.Column - 1);
-            if (board.validPosition(pos) && canMove(pos))
-            {
-                mat[pos.Row, pos.Column] = true;
-            }
-
-            // West
-            pos.defValues(position.Row, position.Column - 1);
-            if (board.validPosition(pos) && canMove(pos))
-            {
-                mat[pos.Row, pos.Column] = true;
-            }
-
-            // Northwest
-            pos.defValues(position.Row - 1, position.Column - 1);
-            if (board.validPosition(pos) && canMove(pos))
-            {
-                mat[pos.Row, pos.Column] = true;
-            }
-            
             return mat;
         }
     }
