@@ -190,6 +190,21 @@ namespace Chess
                 throw new BoardException("You cannot put yourself in checkmate position.");
             }
 
+            Piece p = board.piece(to);
+
+            // Special move: Promotion
+            if (p is Pawn)
+            {
+                if ((p.color == Color.White && to.Row == 0) || (p.color == Color.Black && to.Row == 7))
+                {
+                    p = board.removePiece(to);
+                    pieces.Remove(p);
+                    Piece queen = new Queen(board, p.color); // Depois implementar escolha entre Dama, Torre, Bispo ou Cavalo
+                    board.putPiece(queen, to);
+                    pieces.Add(queen);
+                }
+            }
+
             if (isInCheck(adversary(currentPlayer)))
             {
                 checkmate = true;
@@ -208,8 +223,6 @@ namespace Chess
                 turn++;
                 changePlayer();
             }
-
-            Piece p = board.piece(to);
 
             // Special move: En Passant
             if (p is Pawn && (to.Row == from.Row - 2 || to.Row == from.Row + 2))
