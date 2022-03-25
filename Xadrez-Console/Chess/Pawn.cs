@@ -5,8 +5,11 @@ namespace Chess
 
     class Pawn : Piece
     {
-
-        public Pawn(Board board, Color color) : base(board, color) { }
+        private ChessGame match;
+        public Pawn(Board board, Color color, ChessGame match) : base(board, color)
+        {
+            this.match = match;
+        }
 
         public override string ToString()
         {
@@ -53,6 +56,22 @@ namespace Chess
                 {
                     mat[pos.Row, pos.Column] = true;
                 }
+
+                // Special move: En Passant
+                if (position.Row == 3)
+                {
+                    Position leftPosition = new Position(position.Row, position.Column - 1);
+                    if (board.validPosition(leftPosition) && hasEnemy(leftPosition) && board.piece(leftPosition) == match.vulnerableEnPassant)
+                    {
+                        mat[leftPosition.Row - 1, leftPosition.Column] = true;
+                    }
+
+                    Position rightPosition = new Position(position.Row, position.Column + 1);
+                    if (board.validPosition(rightPosition) && hasEnemy(rightPosition) && board.piece(rightPosition) == match.vulnerableEnPassant)
+                    {
+                        mat[rightPosition.Row - 1, rightPosition.Column] = true;
+                    }
+                }
             }
             else
             {
@@ -76,6 +95,22 @@ namespace Chess
                 if (board.validPosition(pos) && hasEnemy(pos))
                 {
                     mat[pos.Row, pos.Column] = true;
+                }
+
+                // Special move: En Passant
+                if (position.Row == 4)
+                {
+                    Position leftPosition = new Position(position.Row, position.Column - 1);
+                    if (board.validPosition(leftPosition) && hasEnemy(leftPosition) && board.piece(leftPosition) == match.vulnerableEnPassant)
+                    {
+                        mat[leftPosition.Row + 1, leftPosition.Column] = true;
+                    }
+
+                    Position rightPosition = new Position(position.Row, position.Column + 1);
+                    if (board.validPosition(rightPosition) && hasEnemy(rightPosition) && board.piece(rightPosition) == match.vulnerableEnPassant)
+                    {
+                        mat[rightPosition.Row + 1, rightPosition.Column] = true;
+                    }
                 }
             }
 
