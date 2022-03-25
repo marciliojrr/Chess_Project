@@ -39,7 +39,7 @@ namespace Chess
             putNewPiece('b', 1, new Horse(board, Color.White));
             putNewPiece('c', 1, new Bishop(board, Color.White));
             putNewPiece('d', 1, new Queen(board, Color.White));
-            putNewPiece('e', 1, new King(board, Color.White));
+            putNewPiece('e', 1, new King(board, Color.White, this)); // 'this' = auto referencia para a partida, foi necessario para a criacao da jogada roque
             putNewPiece('f', 1, new Bishop(board, Color.White));
             putNewPiece('g', 1, new Horse(board, Color.White));
             putNewPiece('h', 1, new Rook(board, Color.White));
@@ -56,7 +56,7 @@ namespace Chess
             putNewPiece('b', 8, new Horse(board, Color.Black));
             putNewPiece('c', 8, new Bishop(board, Color.Black));
             putNewPiece('d', 8, new Queen(board, Color.Black));
-            putNewPiece('e', 8, new King(board, Color.Black));
+            putNewPiece('e', 8, new King(board, Color.Black, this));
             putNewPiece('f', 8, new Bishop(board, Color.Black));
             putNewPiece('g', 8, new Horse(board, Color.Black));
             putNewPiece('h', 8, new Rook(board, Color.Black));
@@ -82,6 +82,26 @@ namespace Chess
                 captured.Add(capturedPiece);
             }
 
+            // Special move: Little Castling (Roque pequeno)
+            if (p is King && to.Column == from.Column + 2)
+            {
+                Position originTowerPosition = new Position(from.Row, from.Column + 3);
+                Position destinationTowerPosition = new Position(from.Row, from.Column + 1);
+                Piece rook = board.removePiece(originTowerPosition);
+                rook.incrementMovementQuantity();
+                board.putPiece(rook, destinationTowerPosition);
+            }
+
+            // Special move: Big Castling (Roque grande)
+            if (p is King && to.Column == from.Column - 2)
+            {
+                Position originTowerPosition = new Position(from.Row, from.Column - 4);
+                Position destinationTowerPosition = new Position(from.Row, from.Column - 1);
+                Piece rook = board.removePiece(originTowerPosition);
+                rook.incrementMovementQuantity();
+                board.putPiece(rook, destinationTowerPosition);
+            }
+
             return capturedPiece;
         }
 
@@ -96,6 +116,26 @@ namespace Chess
                 captured.Remove(capturedPiece);
             }
             board.putPiece(p, from);
+
+            // Special move: Little Castling (Roque pequeno)
+            if (p is King && to.Column == from.Column + 2)
+            {
+                Position originTowerPosition = new Position(from.Row, from.Column + 3);
+                Position destinationTowerPosition = new Position(from.Row, from.Column + 1);
+                Piece rook = board.removePiece(destinationTowerPosition);
+                rook.decreaseMovementQuantity();
+                board.putPiece(rook, originTowerPosition);
+            }
+
+            // Special move: Big Castling (Roque grande)
+            if (p is King && to.Column == from.Column - 2)
+            {
+                Position originTowerPosition = new Position(from.Row, from.Column - 4);
+                Position destinationTowerPosition = new Position(from.Row, from.Column - 1);
+                Piece rook = board.removePiece(destinationTowerPosition);
+                rook.decreaseMovementQuantity();
+                board.putPiece(rook, originTowerPosition);
+            }
         }
 
         public void makeMove(Position from, Position to)
